@@ -1,0 +1,34 @@
+#define swap(a,b) {node t=a;a=b;b=t;}
+#define MAX_INT 0x7fffffff
+struct node {
+    int idx, weight;
+    bool operator>(const node& v)const {
+        return weight > v.weight;
+    }
+    bool operator<(const node& v)const {
+        return weight < v.weight;
+    }
+};
+node heap[MAX_ZIP << 2];
+void heap_pop() {
+    heap[1] = heap[hn];
+    heap[hn--].weight = MAX_INT;
+    for (int i = 1; (i << 1) <= hn;) {
+        if (heap[i] < heap[i << 1] && heap[i] < heap[i << 1 | 1]) break;
+        else if (heap[i << 1] < heap[i << 1 | 1]) {
+            swap(heap[i], heap[i << 1]);
+            i <<= 1;
+        }
+        else {
+            swap(heap[i], heap[i << 1 | 1]);
+            i = i << 1 | 1;
+        }
+    }
+}
+void heap_push(node x) {
+    heap[++hn] = x;
+    for (int i = hn; i > 1; i >>= 1)
+        if (heap[i >> 1] > heap[i])
+            swap(heap[i >> 1], heap[i])
+        else break;
+}
